@@ -2,6 +2,7 @@ package dev.tobycook.eventize.dao.impl;
 
 import dev.tobycook.eventize.dao.EventsDAO;
 import dev.tobycook.eventize.model.Event;
+import dev.tobycook.eventize.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -37,6 +38,16 @@ public class EventsDAOImpl implements EventsDAO {
         } catch (HibernateException e) {
             LOGGER.error("Failed to open database session", e);
             return Collections.emptyList();
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Ticket> getAllTicketsForEvent(final String eventName) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            return session.createQuery("SELECT e.tickets FROM Event e WHERE e.name = :eventName")
+                    .setParameter("eventName", eventName).list();
         }
     }
 }

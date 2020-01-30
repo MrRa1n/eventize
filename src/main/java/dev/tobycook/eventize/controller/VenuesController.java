@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 public class VenuesController {
 
+    /* The Venue Service. */
     private VenueService venueService;
 
     @Autowired
