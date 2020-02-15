@@ -38,4 +38,19 @@ public class VenuesDAOImpl extends HibernateDaoSupport implements VenuesDAO {
             return Collections.emptyList();
         }
     }
+
+    @Override
+    public void insertVenue(Venue venue) {
+        try {
+            Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        session.beginTransaction();
+                        session.save(venue);
+                        session.getTransaction().commit();
+                        return 0;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to insert venue into database", e);
+        }
+    }
 }

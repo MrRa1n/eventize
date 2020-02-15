@@ -22,8 +22,6 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(EventsDAOImpl.class);
 
-    private static final String DATA_ACCESS_ERROR = "Failed to execute database query";
-
     @Autowired
     public EventsDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);
@@ -37,7 +35,7 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
                     .execute((final Session session) ->
                             session.createQuery("FROM Event").list());
         } catch (DataAccessException e) {
-            LOGGER.error(DATA_ACCESS_ERROR, e);
+            LOGGER.error("Failed to fetch list of events from database", e);
             return Collections.emptyList();
         }
     }
@@ -51,7 +49,7 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
                             session.createQuery("SELECT e.tickets FROM Event e WHERE e.name = :eventName")
                             .setParameter("eventName", eventName).list());
         } catch (DataAccessException e) {
-            LOGGER.error(DATA_ACCESS_ERROR, e);
+            LOGGER.error("Failed to fetch list of event tickets from database", e);
             return Collections.emptyList();
         }
     }
@@ -64,7 +62,7 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
                     (Event) session.createQuery("FROM Event e WHERE e.id = :id")
                             .setParameter("id", id).uniqueResult());
         } catch (DataAccessException e) {
-            LOGGER.error(DATA_ACCESS_ERROR, e);
+            LOGGER.error("Failed to fetch event from database", e);
             return null;
         }
     }
