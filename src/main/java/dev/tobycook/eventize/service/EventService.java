@@ -25,4 +25,8 @@ public class EventService {
     public List<Ticket> getAllTicketsForEvent(final String eventName) {
         return eventsDAO.getAllTicketsForEvent(eventName);
     }
+
+    public Event getEventById(long id) {
+        return eventsDAO.getEvent(id);
+    }
 }

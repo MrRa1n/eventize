@@ -5,6 +5,7 @@ import dev.tobycook.eventize.model.Ticket;
 import dev.tobycook.eventize.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,11 @@ public class EventsController {
     @GetMapping(value = "/events")
     public List<Event> getEventName() {
         return eventService.getAllEvents();
+    }
+
+    @GetMapping(value = "/events/{id}")
+    public Event getEventById(@PathVariable final long id) {
+        return eventService.getEventById(id);
     }
 
     @GetMapping(value = "/eventTickets")

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,7 +18,8 @@ import java.util.List;
 @Entity
 @Table(name = "events")
 public class Event {
-    private int id;
+
+    private long id;
     private String name;
     private String description;
     private Timestamp date;
@@ -27,12 +29,13 @@ public class Event {
     private List<Ticket> tickets;
 
     @Id
+    @GeneratedValue
     @Column(name = "event_id")
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

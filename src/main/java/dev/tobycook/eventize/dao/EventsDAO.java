@@ -8,4 +8,10 @@ import java.util.List;
 public interface EventsDAO {
     List<Event> getAllEvents();
     List<Ticket> getAllTicketsForEvent(final String eventName);
+
+    Event getEvent(long id);
+//    void createEvent(Event event);
+//    void updateEvent(Event event);
+//    void deleteEvent(long id);
+
 }

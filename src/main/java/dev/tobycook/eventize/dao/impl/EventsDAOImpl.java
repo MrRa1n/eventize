@@ -5,38 +5,39 @@ import dev.tobycook.eventize.model.Event;
 import dev.tobycook.eventize.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
-public class EventsDAOImpl implements EventsDAO {
+public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
 
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(EventsDAOImpl.class);
 
-    /* The Session Factory. */
-    private SessionFactory sessionFactory;
+    private static final String DATA_ACCESS_ERROR = "Failed to execute database query";
 
     @Autowired
     public EventsDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+        setSessionFactory(sessionFactory);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Event> getAllEvents() {
-        LOGGER.info("Called: getAllEvents()");
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            return session.createQuery("FROM Event").list();
-        } catch (HibernateException e) {
-            LOGGER.error("Failed to open database session", e);
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) ->
+                            session.createQuery("FROM Event").list());
+        } catch (DataAccessException e) {
+            LOGGER.error(DATA_ACCESS_ERROR, e);
             return Collections.emptyList();
         }
     }
@@ -44,10 +45,27 @@ public class EventsDAOImpl implements EventsDAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Ticket> getAllTicketsForEvent(final String eventName) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            return session.createQuery("SELECT e.tickets FROM Event e WHERE e.name = :eventName")
-                    .setParameter("eventName", eventName).list();
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) ->
+                            session.createQuery("SELECT e.tickets FROM Event e WHERE e.name = :eventName")
+                            .setParameter("eventName", eventName).list());
+        } catch (DataAccessException e) {
+            LOGGER.error(DATA_ACCESS_ERROR, e);
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public Event getEvent(final long id) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) ->
+                    (Event) session.createQuery("FROM Event e WHERE e.id = :id")
+                            .setParameter("id", id).uniqueResult());
+        } catch (DataAccessException e) {
+            LOGGER.error(DATA_ACCESS_ERROR, e);
+            return null;
         }
     }
 }
