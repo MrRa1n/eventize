@@ -10,17 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Venues dao.
+ */
 @Repository
 public class VenuesDAOImpl extends HibernateDaoSupport implements VenuesDAO {
 
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(VenuesDAOImpl.class);
 
+    /**
+     * Instantiates a new Venues dao.
+     *
+     * @param sessionFactory the session factory
+     */
     @Autowired
     public VenuesDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);
@@ -40,13 +49,13 @@ public class VenuesDAOImpl extends HibernateDaoSupport implements VenuesDAO {
     }
 
     @Override
+    @Transactional
     public void insertVenue(Venue venue) {
         try {
             Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) -> {
-                        session.beginTransaction();
+                        LOGGER.info("Inserting new venue...");
                         session.save(venue);
-                        session.getTransaction().commit();
                         return 0;
                     });
         } catch (DataAccessException e) {

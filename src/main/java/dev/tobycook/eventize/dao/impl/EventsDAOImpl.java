@@ -16,12 +16,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Events dao.
+ */
 @Repository
 public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
 
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(EventsDAOImpl.class);
 
+    /**
+     * Instantiates a new Events dao.
+     *
+     * @param sessionFactory the session factory
+     */
     @Autowired
     public EventsDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);

@@ -1,23 +1,13 @@
-package dev.tobycook.eventize.model;
+package dev.tobycook.eventize.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import dev.tobycook.eventize.model.Event;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
- * The type Venue.
+ * The type Venue dto.
  */
-@Entity
-@Table(name = "venues")
-public class Venue {
+public class VenueDTO {
     private int id;
     private String name;
     private String description;
@@ -34,9 +24,6 @@ public class Venue {
      *
      * @return the id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "venue_id")
     public int getId() {
         return id;
     }
@@ -55,7 +42,6 @@ public class Venue {
      *
      * @return the name
      */
-    @Column(name = "venue_name")
     public String getName() {
         return name;
     }
@@ -74,7 +60,6 @@ public class Venue {
      *
      * @return the description
      */
-    @Column(name = "venue_desc")
     public String getDescription() {
         return description;
     }
@@ -201,8 +186,6 @@ public class Venue {
      *
      * @return the events
      */
-    @JsonManagedReference(value = "venue")
-    @OneToMany(targetEntity = Event.class, mappedBy = "venue", fetch = FetchType.EAGER)
     public List<Event> getEvents() {
         return events;
     }

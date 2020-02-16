@@ -12,11 +12,13 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.ui.Model;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * The type Session factory config.
+ */
 @Configuration
 @EnableTransactionManagement
 @PropertySource({ "classpath:/application.properties" })
@@ -24,11 +26,21 @@ public class SessionFactoryConfig {
 
     private Environment env;
 
+    /**
+     * Instantiates a new Session factory config.
+     *
+     * @param env the env
+     */
     @Autowired
     public SessionFactoryConfig(Environment env) {
         this.env = env;
     }
 
+    /**
+     * Session factory local session factory bean.
+     *
+     * @return the local session factory bean
+     */
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -39,6 +51,11 @@ public class SessionFactoryConfig {
         return sessionFactory;
     }
 
+    /**
+     * Data source data source.
+     *
+     * @return the data source
+     */
     @Bean
     public DataSource dataSource() {
         final BasicDataSource dataSource = new BasicDataSource();
@@ -50,6 +67,11 @@ public class SessionFactoryConfig {
         return dataSource;
     }
 
+    /**
+     * Hibernate transaction manager platform transaction manager.
+     *
+     * @return the platform transaction manager
+     */
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
         final HibernateTransactionManager transactionManager = new HibernateTransactionManager();
@@ -57,6 +79,11 @@ public class SessionFactoryConfig {
         return transactionManager;
     }
 
+    /**
+     * Model mapper model mapper.
+     *
+     * @return the model mapper
+     */
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

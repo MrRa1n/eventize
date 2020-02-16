@@ -15,12 +15,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Tickets dao.
+ */
 @Repository
 public class TicketsDAOImpl extends HibernateDaoSupport implements TicketsDAO {
 
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(TicketsDAOImpl.class);
 
+    /**
+     * Instantiates a new Tickets dao.
+     *
+     * @param sessionFactory the session factory
+     */
     @Autowired
     public TicketsDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);

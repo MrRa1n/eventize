@@ -16,12 +16,20 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * The type Guests dao.
+ */
 @Repository
 public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
 
     /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(GuestsDAOImpl.class);
 
+    /**
+     * Instantiates a new Guests dao.
+     *
+     * @param sessionFactory the session factory
+     */
     @Autowired
     public GuestsDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);
