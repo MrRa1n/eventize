@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,21 +50,7 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public List<Ticket> getAllTicketsForEvent(final String eventName) {
-        try {
-            return Objects.requireNonNull(getHibernateTemplate())
-                    .execute((final Session session) ->
-                            session.createQuery("SELECT e.tickets FROM Event e WHERE e.name = :eventName")
-                            .setParameter("eventName", eventName).list());
-        } catch (DataAccessException e) {
-            LOGGER.error("Failed to fetch list of event tickets from database", e);
-            return Collections.emptyList();
-        }
-    }
-
-    @Override
-    public Event getEvent(final long id) {
+    public Event getEvent(final Long id) {
         try {
             return Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) ->
@@ -72,6 +59,21 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
         } catch (DataAccessException e) {
             LOGGER.error("Failed to fetch event from database", e);
             return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void createEvent(final Event event) {
+        try {
+            Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Creating event...");
+                        session.save(event);
+                        return 0;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to create event");
         }
     }
 }
