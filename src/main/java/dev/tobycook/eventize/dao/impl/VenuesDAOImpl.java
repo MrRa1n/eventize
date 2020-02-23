@@ -49,17 +49,69 @@ public class VenuesDAOImpl extends HibernateDaoSupport implements VenuesDAO {
     }
 
     @Override
-    @Transactional
-    public void insertVenue(Venue venue) {
+    public Venue getVenueById(final Long venueId) {
         try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info(String.format("Fetching venue with ID: %d", venueId));
+                        return (Venue) session.createQuery("FROM Venue v WHERE v.id = :venueId")
+                                .setParameter("venueId", venueId)
+                                .uniqueResult();
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error(String.format("Failed to fetch venue with ID: %d", venueId));
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Venue createVenue(final Venue venue) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Creating venue...");
+                        session.save(venue);
+                        return venue;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to create venue", e);
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Venue updateVenue(final Venue venue) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Updating venue...");
+                        session.update(venue);
+                        return venue;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to update venue", e);
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteVenue(final Long venueId) {
+        try {
+            Venue venue = getVenueById(venueId);
+            if (venue == null) {
+                throw new NullPointerException("Failed to find venue");
+            }
             Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) -> {
-                        LOGGER.info("Inserting new venue...");
-                        session.save(venue);
+                        LOGGER.info("Deleting venue...");
+                        session.delete(venue);
                         return 0;
                     });
         } catch (DataAccessException e) {
-            LOGGER.error("Failed to insert venue into database", e);
+            LOGGER.error("Failed to delete venue", e);
         }
     }
 }

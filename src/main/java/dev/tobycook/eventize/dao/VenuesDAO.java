@@ -16,9 +16,33 @@ public interface VenuesDAO {
     List<Venue> getAllVenues();
 
     /**
-     * Insert venue.
+     * Gets venue by id.
+     *
+     * @param venueId the venue id
+     * @return the venue by id
+     */
+    Venue getVenueById(final Long venueId);
+
+    /**
+     * Create venue.
      *
      * @param venue the venue
+     * @return the venue
      */
-    void insertVenue(Venue venue);
+    Venue createVenue(final Venue venue);
+
+    /**
+     * Update venue venue.
+     *
+     * @param venue the venue
+     * @return the venue
+     */
+    Venue updateVenue(final Venue venue);
+
+    /**
+     * Delete venue.
+     *
+     * @param venueId the venue id
+     */
+    void deleteVenue(final Long venueId);
 }
