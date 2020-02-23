@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class VenueService {
 
+    /* The Venues DAO. */
     private final VenuesDAO venuesDAO;
 
     /**
@@ -30,11 +31,11 @@ public class VenueService {
      *
      * @param venue the venue
      */
-    public void createVenue(Venue venue) {
+    public Venue createVenue(Venue venue) {
         if (venue == null) {
-            throw new IllegalArgumentException("Venue is null");
+            throw new IllegalArgumentException("Venue cannot be null");
         }
-        venuesDAO.insertVenue(venue);
+        return venuesDAO.createVenue(venue);
     }
 
     /**
@@ -44,5 +45,9 @@ public class VenueService {
      */
     public List<Venue> getAllVenues() {
         return venuesDAO.getAllVenues();
+    }
+
+    public Venue getVenueById(final Long venueId) {
+        return venuesDAO.getVenueById(venueId);
     }
 }

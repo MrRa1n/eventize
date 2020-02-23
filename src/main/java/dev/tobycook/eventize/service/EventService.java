@@ -2,7 +2,6 @@ package dev.tobycook.eventize.service;
 
 import dev.tobycook.eventize.dao.EventsDAO;
 import dev.tobycook.eventize.model.Event;
-import dev.tobycook.eventize.model.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import java.util.List;
 @Service
 public class EventService {
 
+    /* The Events DAO. */
     private EventsDAO eventsDAO;
 
     /**
@@ -36,22 +36,24 @@ public class EventService {
     }
 
     /**
-     * Gets all tickets for event.
-     *
-     * @param eventName the event name
-     * @return the all tickets for event
-     */
-    public List<Ticket> getAllTicketsForEvent(final String eventName) {
-        return eventsDAO.getAllTicketsForEvent(eventName);
-    }
-
-    /**
      * Gets event by id.
      *
      * @param id the id
      * @return the event by id
      */
-    public Event getEventById(long id) {
+    public Event getEventById(final Long id) {
         return eventsDAO.getEvent(id);
+    }
+
+    /**
+     * Create event.
+     *
+     * @param event the event
+     */
+    public void createEvent(Event event) {
+        if (event == null) {
+            throw new IllegalArgumentException("Event cannot be null");
+        }
+        eventsDAO.createEvent(event);
     }
 }
