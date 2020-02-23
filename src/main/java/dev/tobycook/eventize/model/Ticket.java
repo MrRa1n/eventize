@@ -1,12 +1,10 @@
 package dev.tobycook.eventize.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -15,10 +13,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tickets")
 public class Ticket {
-    private int id;
+    private Long id;
     private String type;
-    private Event event;
-    private Guest guest;
+    private Long eventId;
+    private Long guestId;
 
     /**
      * Gets id.
@@ -26,8 +24,9 @@ public class Ticket {
      * @return the id
      */
     @Id
-    @Column(name = "ticket_id")
-    public int getId() {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "ticket_id", updatable = false, nullable = false)
+    public Long getId() {
         return id;
     }
 
@@ -36,7 +35,7 @@ public class Ticket {
      *
      * @param id the id
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,44 +59,40 @@ public class Ticket {
     }
 
     /**
-     * Gets event.
+     * Gets event id.
      *
-     * @return the event
+     * @return the event id
      */
-    @JsonBackReference(value = "event")
-    @ManyToOne
-    @JoinColumn(name = "event_id", updatable = false, insertable = false)
-    public Event getEvent() {
-        return event;
+    @Column(name ="event_id")
+    public Long getEventId() {
+        return eventId;
     }
 
     /**
-     * Sets event.
+     * Sets event id.
      *
-     * @param event the event
+     * @param eventId the event id
      */
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     /**
-     * Gets guest.
+     * Gets guest id.
      *
-     * @return the guest
+     * @return the guest id
      */
-    @JsonBackReference(value = "guest")
-    @ManyToOne
-    @JoinColumn(name = "guest_id", updatable = false, insertable = false)
-    public Guest getGuest() {
-        return guest;
+    @Column(name = "guest_id")
+    public Long getGuestId() {
+        return guestId;
     }
 
     /**
-     * Sets guest.
+     * Sets guest id.
      *
-     * @param guest the guest
+     * @param guestId the guest id
      */
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void setGuestId(Long guestId) {
+        this.guestId = guestId;
     }
 }

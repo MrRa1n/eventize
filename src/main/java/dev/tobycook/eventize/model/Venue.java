@@ -1,16 +1,11 @@
 package dev.tobycook.eventize.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 /**
  * The type Venue.
@@ -18,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "venues")
 public class Venue {
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private String telephone;
@@ -27,7 +22,6 @@ public class Venue {
     private String city;
     private String postcode;
     private String country;
-    private List<Event> events;
 
     /**
      * Gets id.
@@ -35,9 +29,9 @@ public class Venue {
      * @return the id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "venue_id")
-    public int getId() {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "venue_id", updatable = false, nullable = false)
+    public Long getId() {
         return id;
     }
 
@@ -46,7 +40,7 @@ public class Venue {
      *
      * @param id the id
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -194,25 +188,5 @@ public class Venue {
      */
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    /**
-     * Gets events.
-     *
-     * @return the events
-     */
-    @JsonManagedReference(value = "venue")
-    @OneToMany(targetEntity = Event.class, mappedBy = "venue", fetch = FetchType.EAGER)
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    /**
-     * Sets events.
-     *
-     * @param events the events
-     */
-    public void setEvents(List<Event> events) {
-        this.events = events;
     }
 }

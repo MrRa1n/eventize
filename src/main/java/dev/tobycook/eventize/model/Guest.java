@@ -1,14 +1,11 @@
 package dev.tobycook.eventize.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 /**
  * The type Guest.
@@ -16,14 +13,12 @@ import java.util.List;
 @Entity
 @Table(name = "guests")
 public class Guest {
-
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String telephone;
     private String email;
     private String notes;
-    private List<Ticket> tickets;
 
     /**
      * Gets id.
@@ -31,8 +26,9 @@ public class Guest {
      * @return the id
      */
     @Id
-    @Column(name = "guest_id")
-    public int getId() {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "guest_id", updatable = false, nullable = false)
+    public Long getId() {
         return id;
     }
 
@@ -41,7 +37,7 @@ public class Guest {
      *
      * @param id the id
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -135,25 +131,5 @@ public class Guest {
      */
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    /**
-     * Gets tickets.
-     *
-     * @return the tickets
-     */
-    @JsonManagedReference(value = "guest")
-    @OneToMany(targetEntity = Ticket.class, mappedBy = "guest", fetch = FetchType.EAGER)
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    /**
-     * Sets tickets.
-     *
-     * @param tickets the tickets
-     */
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
     }
 }

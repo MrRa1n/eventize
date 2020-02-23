@@ -1,19 +1,12 @@
 package dev.tobycook.eventize.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * The type Event.
@@ -21,15 +14,13 @@ import java.util.List;
 @Entity
 @Table(name = "events")
 public class Event {
-
-    private long id;
+    private Long id;
     private String name;
     private String description;
     private Timestamp date;
     private int guestList;
     private int freeList;
-    private Venue venue;
-    private List<Ticket> tickets;
+    private Long venueId;
 
     /**
      * Gets id.
@@ -37,9 +28,9 @@ public class Event {
      * @return the id
      */
     @Id
-    @GeneratedValue
-    @Column(name = "event_id")
-    public long getId() {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "event_id", updatable = false, nullable = false)
+    public Long getId() {
         return id;
     }
 
@@ -48,7 +39,7 @@ public class Event {
      *
      * @param id the id
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -146,43 +137,21 @@ public class Event {
     }
 
     /**
-     * Gets venue.
+     * Gets venue id.
      *
-     * @return the venue
+     * @return the venue id
      */
-    @JsonBackReference(value = "venue")
-    @ManyToOne
-    @JoinColumn(name = "venue_id", updatable = false, insertable = false)
-    public Venue getVenue() {
-        return venue;
+    @Column(name = "venue_id")
+    public Long getVenueId() {
+        return venueId;
     }
 
     /**
-     * Sets venue.
+     * Sets venue id.
      *
-     * @param venue the venue
+     * @param venueId the venue id
      */
-    public void setVenue(Venue venue) {
-        this.venue = venue;
-    }
-
-    /**
-     * Gets tickets.
-     *
-     * @return the tickets
-     */
-    @JsonManagedReference(value = "event")
-    @OneToMany(targetEntity = Ticket.class, mappedBy = "event", fetch = FetchType.EAGER)
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    /**
-     * Sets tickets.
-     *
-     * @param tickets the tickets
-     */
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setVenueId(Long venueId) {
+        this.venueId = venueId;
     }
 }
