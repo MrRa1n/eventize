@@ -1,14 +1,10 @@
 package dev.tobycook.eventize.dto;
 
-import dev.tobycook.eventize.model.Event;
-
-import java.util.List;
-
 /**
  * The type Venue dto.
  */
 public class VenueDTO {
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private String telephone;
@@ -17,14 +13,13 @@ public class VenueDTO {
     private String city;
     private String postcode;
     private String country;
-    private List<Event> events;
 
     /**
      * Gets id.
      *
      * @return the id
      */
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -33,7 +28,7 @@ public class VenueDTO {
      *
      * @param id the id
      */
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -179,23 +174,5 @@ public class VenueDTO {
      */
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    /**
-     * Gets events.
-     *
-     * @return the events
-     */
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    /**
-     * Sets events.
-     *
-     * @param events the events
-     */
-    public void setEvents(List<Event> events) {
-        this.events = events;
     }
 }
