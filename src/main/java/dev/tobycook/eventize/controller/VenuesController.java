@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +23,13 @@ import java.util.List;
 @RestController
 public class VenuesController {
 
+    /* The Logger. */
     private static final Logger LOGGER = LogManager.getLogger(VenuesController.class);
 
     /* The Venue Service. */
     private VenueService venueService;
 
+    /* The Model Mapper. */
     private ModelMapper modelMapper;
 
     /**
@@ -58,17 +61,34 @@ public class VenuesController {
      * @return the response entity
      */
     @PostMapping(value = "/venues")
-    public ResponseEntity<Void> createVenue(@RequestBody VenueDTO venueDTO) {
-        Venue venue = convertToEntity(venueDTO);
+    public ResponseEntity<Object> createVenue(@RequestBody VenueDTO venueDTO) {
         try {
-            venueService.createVenue(venue);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            Venue venue = venueService.createVenue(convertToEntity(venueDTO));
+            return new ResponseEntity<>(venue, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             LOGGER.error("Failed to create venue", e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to create venue", HttpStatus.BAD_REQUEST);
         }
     }
 
+    /**
+     * Gets venue by id.
+     *
+     * @param venueId the venue id
+     * @return the venue by id
+     */
+    @GetMapping(value = "/venues/{venueId}")
+    public ResponseEntity<Venue> getVenueById(@PathVariable final Long venueId) {
+        Venue venue = venueService.getVenueById(venueId);
+        return new ResponseEntity<>(venue, HttpStatus.OK);
+    }
+
+    /**
+     * Convert the venue DTO.
+     *
+     * @param venueDTO the venue DTO
+     * @return the converted entity
+     */
     private Venue convertToEntity(VenueDTO venueDTO) {
         LOGGER.info("Mapping VenueDTO to Venue...");
         return modelMapper.map(venueDTO, Venue.class);
