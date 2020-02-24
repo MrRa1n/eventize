@@ -27,9 +27,29 @@ public class VenueService {
     }
 
     /**
+     * Gets all venues.
+     *
+     * @return the all venues
+     */
+    public List<Venue> getAllVenues() {
+        return venuesDAO.getAllVenues();
+    }
+
+    /**
+     * Gets venue by id.
+     *
+     * @param venueId the venue id
+     * @return the venue by id
+     */
+    public Venue getVenueById(final Long venueId) {
+        return venuesDAO.getVenueById(venueId);
+    }
+
+    /**
      * Create venue.
      *
      * @param venue the venue
+     * @return the venue
      */
     public Venue createVenue(Venue venue) {
         if (venue == null) {
@@ -39,15 +59,24 @@ public class VenueService {
     }
 
     /**
-     * Gets all venues.
+     * Update venue venue.
      *
-     * @return the all venues
+     * @param venue the venue
+     * @return the venue
      */
-    public List<Venue> getAllVenues() {
-        return venuesDAO.getAllVenues();
+    public Venue updateVenue(final Venue venue) {
+        return venuesDAO.updateVenue(venue);
     }
 
-    public Venue getVenueById(final Long venueId) {
-        return venuesDAO.getVenueById(venueId);
+    /**
+     * Delete venue.
+     *
+     * @param venueId the venue id
+     */
+    public void deleteVenue(final Long venueId) {
+        venuesDAO.deleteVenue(venueId);
     }
+
+
+
 }
