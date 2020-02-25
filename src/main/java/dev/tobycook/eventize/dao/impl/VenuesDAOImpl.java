@@ -101,9 +101,8 @@ public class VenuesDAOImpl extends HibernateDaoSupport implements VenuesDAO {
     public void deleteVenue(final Long venueId) {
         try {
             Venue venue = getVenueById(venueId);
-            if (venue == null) {
+            if (venue == null)
                 throw new NullPointerException("Failed to find venue");
-            }
             Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) -> {
                         LOGGER.info("Deleting venue...");
