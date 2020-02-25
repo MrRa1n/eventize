@@ -9,9 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,27 +62,50 @@ public class EventsController {
      * @param eventDTO the event dto
      * @return the response entity
      */
-    @PostMapping(value = "/events")
-    public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO) {
+    @PostMapping(value = "/events/create")
+    public ResponseEntity<Event> createEvent(@RequestBody EventDTO eventDTO) {
         try {
-            Event event = convertToEntity(eventDTO);
-            eventService.createEvent(event);
-            return new ResponseEntity<>("Successfully created event", HttpStatus.CREATED);
+            Event event = eventService.createEvent(convertToEntity(eventDTO));
+            return new ResponseEntity<>(event, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             LOGGER.error("Failed to create event", e);
-            return new ResponseEntity<>("Failed to create event", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
      * Gets event by id.
      *
-     * @param id the id
+     * @param eventId the event id
      * @return the event by id
      */
-    @GetMapping(value = "/events/{id}")
-    public Event getEventById(@PathVariable final Long id) {
-        return eventService.getEventById(id);
+    @GetMapping(value = "/events/{eventId}")
+    public Event getEventById(@PathVariable final Long eventId) {
+        return eventService.getEventById(eventId);
+    }
+
+    /**
+     * Update event response entity.
+     *
+     * @param eventDTO the event dto
+     * @return the response entity
+     */
+    @PutMapping(value = "/events/update")
+    public ResponseEntity<Event> updateEvent(@RequestBody EventDTO eventDTO) {
+        Event event = eventService.updateEvent(convertToEntity(eventDTO));
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    /**
+     * Delete event response entity.
+     *
+     * @param eventId the event id
+     * @return the response entity
+     */
+    @DeleteMapping(value = "/events/{eventId}/delete")
+    public ResponseEntity<Void> deleteEvent(@PathVariable final Long eventId) {
+        eventService.deleteEvent(eventId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

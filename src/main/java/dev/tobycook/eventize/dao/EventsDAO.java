@@ -21,12 +21,29 @@ public interface EventsDAO {
      * @param id the id
      * @return the event
      */
-    Event getEvent(final Long id);
+    Event getEventById(final Long id);
 
     /**
      * Create event.
      *
      * @param event the event
+     * @return the event
      */
-    void createEvent(final Event event);
+    Event createEvent(final Event event);
+
+    /**
+     * Update event event.
+     *
+     * @param event the event
+     * @return the event
+     */
+    Event updateEvent(final Event event);
+
+    /**
+     * Delete event.
+     *
+     * @param eventId the event id
+     */
+    void deleteEvent(final Long eventId);
+
 }

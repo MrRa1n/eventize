@@ -2,7 +2,6 @@ package dev.tobycook.eventize.dao.impl;
 
 import dev.tobycook.eventize.dao.EventsDAO;
 import dev.tobycook.eventize.model.Event;
-import dev.tobycook.eventize.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -50,7 +49,7 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
     }
 
     @Override
-    public Event getEvent(final Long id) {
+    public Event getEventById(final Long id) {
         try {
             return Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) ->
@@ -64,16 +63,51 @@ public class EventsDAOImpl extends HibernateDaoSupport implements EventsDAO {
 
     @Override
     @Transactional
-    public void createEvent(final Event event) {
+    public Event createEvent(final Event event) {
         try {
-            Objects.requireNonNull(getHibernateTemplate())
+            return Objects.requireNonNull(getHibernateTemplate())
                     .execute((final Session session) -> {
                         LOGGER.info("Creating event...");
                         session.save(event);
-                        return 0;
+                        return event;
                     });
         } catch (DataAccessException e) {
             LOGGER.error("Failed to create event");
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Event updateEvent(final Event event) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Updating event...");
+                        session.update(event);
+                        return event;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to update event", e);
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteEvent(final Long eventId) {
+        try {
+            Event event = getEventById(eventId);
+            if (event == null)
+                throw new NullPointerException("Failed to find event");
+            Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Deleting event...");
+                        session.delete(event);
+                        return 0;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error(String.format("Failed to delete event with ID: %d", eventId));
         }
     }
 }

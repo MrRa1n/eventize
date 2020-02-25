@@ -42,18 +42,39 @@ public class EventService {
      * @return the event by id
      */
     public Event getEventById(final Long id) {
-        return eventsDAO.getEvent(id);
+        return eventsDAO.getEventById(id);
     }
 
     /**
      * Create event.
      *
      * @param event the event
+     * @return the event
      */
-    public void createEvent(Event event) {
-        if (event == null) {
+    public Event createEvent(Event event) {
+        if (event == null)
             throw new IllegalArgumentException("Event cannot be null");
-        }
-        eventsDAO.createEvent(event);
+        return eventsDAO.createEvent(event);
+    }
+
+    /**
+     * Update event event.
+     *
+     * @param event the event
+     * @return the event
+     */
+    public Event updateEvent(Event event) {
+        if (event == null)
+            throw new IllegalArgumentException("Event cannot be null");
+        return eventsDAO.updateEvent(event);
+    }
+
+    /**
+     * Delete event.
+     *
+     * @param eventId the event id
+     */
+    public void deleteEvent(final Long eventId) {
+        eventsDAO.deleteEvent(eventId);
     }
 }
