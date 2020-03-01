@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +46,69 @@ public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
         } catch (DataAccessException e) {
             LOGGER.error("Failed to fetch list of guests", e);
             return Collections.emptyList();
+        }
+    }
+
+    public Guest getGuestById(final Long guestId) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info(String.format("Fetching guest with ID: %d", guestId));
+                        return (Guest) session.createQuery("FROM Guest g WHERE g.id = :guestId")
+                                .setParameter("guestId", guestId)
+                                .uniqueResult();
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error(String.format("Failed to fetch guest with ID: %d", guestId));
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public Guest createGuest(final Guest guest) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info("Creating guest...");
+                        session.save(guest);
+                        return guest;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error("Failed to create guest", e);
+            return null;
+        }
+    }
+
+    @Override
+    public Guest updateGuest(final Guest guest) {
+        try {
+            return Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info(String.format("Updating guest with ID: %d", guest.getId()));
+                        session.update(guest);
+                        return guest;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error(String.format("Failed to update guest with ID: %d", guest.getId()), e);
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteGuest(final Long guestId) {
+        try {
+            Guest guest = getGuestById(guestId);
+            if (guest == null)
+                throw new NullPointerException(String.format("Failed to find guest with ID: %d", guestId));
+            Objects.requireNonNull(getHibernateTemplate())
+                    .execute((final Session session) -> {
+                        LOGGER.info(String.format("Deleting guest with ID: %d", guestId));
+                        session.delete(guest);
+                        return 0;
+                    });
+        } catch (DataAccessException e) {
+            LOGGER.error(String.format("Failed to delete guest with ID: %d", guestId));
         }
     }
 }
