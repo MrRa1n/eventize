@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
  * The type Events controller.
  */
 @RestController
+@RequestMapping(value = "/events")
 public class EventsController {
 
     /* The Logger. */
@@ -51,7 +53,7 @@ public class EventsController {
      *
      * @return the event name
      */
-    @GetMapping(value = "/events")
+    @GetMapping
     public List<Event> getEventName() {
         return eventService.getAllEvents();
     }
@@ -62,7 +64,7 @@ public class EventsController {
      * @param eventDTO the event dto
      * @return the response entity
      */
-    @PostMapping(value = "/events/create")
+    @PostMapping(value = "/create")
     public ResponseEntity<Event> createEvent(@RequestBody EventDTO eventDTO) {
         try {
             Event event = eventService.createEvent(convertToEntity(eventDTO));
@@ -79,7 +81,7 @@ public class EventsController {
      * @param eventId the event id
      * @return the event by id
      */
-    @GetMapping(value = "/events/{eventId}")
+    @GetMapping(value = "/{eventId}")
     public Event getEventById(@PathVariable final Long eventId) {
         return eventService.getEventById(eventId);
     }
@@ -90,7 +92,7 @@ public class EventsController {
      * @param eventDTO the event dto
      * @return the response entity
      */
-    @PutMapping(value = "/events/update")
+    @PutMapping(value = "/update")
     public ResponseEntity<Event> updateEvent(@RequestBody EventDTO eventDTO) {
         Event event = eventService.updateEvent(convertToEntity(eventDTO));
         return new ResponseEntity<>(event, HttpStatus.OK);
@@ -102,7 +104,7 @@ public class EventsController {
      * @param eventId the event id
      * @return the response entity
      */
-    @DeleteMapping(value = "/events/{eventId}/delete")
+    @DeleteMapping(value = "/{eventId}/delete")
     public ResponseEntity<Void> deleteEvent(@PathVariable final Long eventId) {
         eventService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.OK);
