@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
  * The type Venues controller.
  */
 @RestController
+@RequestMapping(value = "/api/venues")
 public class VenuesController {
 
     /* The Logger. */
@@ -51,7 +53,7 @@ public class VenuesController {
      *
      * @return the all venues
      */
-    @GetMapping(value = "/venues")
+    @GetMapping
     public ResponseEntity<List<Venue>> getAllVenues() {
         List<Venue> venues = venueService.getAllVenues();
         return new ResponseEntity<>(venues, HttpStatus.OK);
@@ -63,7 +65,7 @@ public class VenuesController {
      * @param venueDTO the venue dto
      * @return the response entity
      */
-    @PostMapping(value = "/venues/create")
+    @PostMapping(value = "/create")
     public ResponseEntity<Object> createVenue(@RequestBody VenueDTO venueDTO) {
         try {
             Venue venue = venueService.createVenue(convertToEntity(venueDTO));
@@ -80,7 +82,7 @@ public class VenuesController {
      * @param venueId the venue id
      * @return the venue by id
      */
-    @GetMapping(value = "/venues/{venueId}")
+    @GetMapping(value = "/{venueId}")
     public ResponseEntity<Venue> getVenueById(@PathVariable final Long venueId) {
         Venue venue = venueService.getVenueById(venueId);
         return new ResponseEntity<>(venue, HttpStatus.OK);
@@ -92,7 +94,7 @@ public class VenuesController {
      * @param venueDTO the venue dto
      * @return the response entity
      */
-    @PutMapping(value = "/venues/update")
+    @PutMapping(value = "/update")
     public ResponseEntity<Venue> updateVenue(@RequestBody VenueDTO venueDTO) {
         Venue venue = venueService.updateVenue(convertToEntity(venueDTO));
         return new ResponseEntity<>(venue, HttpStatus.OK);
@@ -104,7 +106,7 @@ public class VenuesController {
      * @param venueId the venue id
      * @return the response entity
      */
-    @DeleteMapping(value = "/venues/{venueId}/delete")
+    @DeleteMapping(value = "/{venueId}/delete")
     public ResponseEntity<Void> deleteVenue(@PathVariable final Long venueId) {
         venueService.deleteVenue(venueId);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -24,7 +24,7 @@ import java.util.List;
  * The type Events controller.
  */
 @RestController
-@RequestMapping(value = "/events")
+@RequestMapping(value = "/api/events")
 public class EventsController {
 
     /* The Logger. */

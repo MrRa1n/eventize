@@ -24,7 +24,7 @@ import java.util.List;
  * The type Guests controller.
  */
 @RestController
-@RequestMapping(value = "/guests")
+@RequestMapping(value = "/api/guests")
 public class GuestsController {
 
     /* The Logger. */

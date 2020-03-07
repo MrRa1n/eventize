@@ -24,7 +24,7 @@ import java.util.List;
  * The type Tickets controller.
  */
 @RestController
-@RequestMapping(value = "/tickets")
+@RequestMapping(value = "/api/tickets")
 public class TicketsController {
 
     /* The Logger. */
