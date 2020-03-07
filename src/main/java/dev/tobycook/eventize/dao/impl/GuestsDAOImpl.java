@@ -49,6 +49,7 @@ public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
         }
     }
 
+    @Override
     public Guest getGuestById(final Long guestId) {
         try {
             return Objects.requireNonNull(getHibernateTemplate())
@@ -81,6 +82,7 @@ public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
     }
 
     @Override
+    @Transactional
     public Guest updateGuest(final Guest guest) {
         try {
             return Objects.requireNonNull(getHibernateTemplate())
@@ -96,6 +98,7 @@ public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
     }
 
     @Override
+    @Transactional
     public void deleteGuest(final Long guestId) {
         try {
             Guest guest = getGuestById(guestId);
