@@ -76,7 +76,4 @@ public class VenueService {
     public void deleteVenue(final Long venueId) {
         venuesDAO.deleteVenue(venueId);
     }
-
-
-
 }

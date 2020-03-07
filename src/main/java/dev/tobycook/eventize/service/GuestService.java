@@ -34,4 +34,47 @@ public class GuestService {
     public List<Guest> getAllGuests() {
         return guestsDAO.getAllGuests();
     }
+
+    /**
+     * Gets guest by id.
+     *
+     * @param guestId the guest id
+     * @return the guest by id
+     */
+    public Guest getGuestById(final Long guestId) {
+        return guestsDAO.getGuestById(guestId);
+    }
+
+    /**
+     * Create guest guest.
+     *
+     * @param guest the guest
+     * @return the guest
+     */
+    public Guest createGuest(final Guest guest) {
+        if (guest == null)
+            throw new IllegalArgumentException("Guest cannot be null");
+        return guestsDAO.createGuest(guest);
+    }
+
+    /**
+     * Update guest guest.
+     *
+     * @param guest the guest
+     * @return the guest
+     */
+    public Guest updateGuest(final Guest guest) {
+        if (guest == null)
+            throw new IllegalArgumentException("Guest cannot be null");
+        return guestsDAO.updateGuest(guest);
+    }
+
+    /**
+     * Delete guest.
+     *
+     * @param guestId the guest id
+     */
+    public void deleteGuest(final Long guestId) {
+        guestsDAO.deleteGuest(guestId);
+    }
 }
