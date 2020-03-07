@@ -116,6 +116,12 @@ public class GuestsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Convert the Guest DTO.
+     *
+     * @param guestDTO the guest DTO
+     * @return the converted entity
+     */
     private Guest convertToEntity(GuestDTO guestDTO) {
         return modelMapper.map(guestDTO, Guest.class);
     }
