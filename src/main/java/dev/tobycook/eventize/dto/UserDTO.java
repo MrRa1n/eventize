@@ -1,20 +1,9 @@
-package dev.tobycook.eventize.model;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+package dev.tobycook.eventize.dto;
 
 /**
- * The type User.
+ * The type User dto.
  */
-@Entity
-@Table(name = "users")
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 2364534L;
-
-    @Id
+public class UserDTO {
     private String username;
     private String password;
     private boolean enabled;
@@ -90,15 +79,5 @@ public class User implements Serializable {
      */
     public void setRoles(String roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", roles='" + roles + '\'' +
-                '}';
     }
 }

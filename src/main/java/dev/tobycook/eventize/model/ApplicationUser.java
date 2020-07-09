@@ -9,6 +9,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Application user.
+ */
 public class ApplicationUser implements UserDetails {
 
     private String username;
@@ -16,6 +19,11 @@ public class ApplicationUser implements UserDetails {
     private boolean enabled;
     private List<GrantedAuthority> authorities;
 
+    /**
+     * Instantiates a new Application user.
+     *
+     * @param user the user
+     */
     public ApplicationUser(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -58,5 +66,15 @@ public class ApplicationUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", authorities=" + authorities +
+                '}';
     }
 }
