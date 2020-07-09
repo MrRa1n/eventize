@@ -24,6 +24,7 @@ import java.util.Properties;
 @PropertySource({ "classpath:/application.properties" })
 public class SessionFactoryConfig {
 
+    /* The environment. */
     private Environment env;
 
     /**
@@ -89,6 +90,11 @@ public class SessionFactoryConfig {
         return new ModelMapper();
     }
 
+    /**
+     * The hibernate properties.
+     *
+     * @return the properties
+     */
     private Properties hibernateProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));

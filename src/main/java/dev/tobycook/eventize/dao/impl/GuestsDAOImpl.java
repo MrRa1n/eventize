@@ -31,7 +31,6 @@ public class GuestsDAOImpl extends HibernateDaoSupport implements GuestsDAO {
      *
      * @param sessionFactory the session factory
      */
-    @Autowired
     public GuestsDAOImpl(SessionFactory sessionFactory) {
         setSessionFactory(sessionFactory);
     }
