@@ -12,7 +12,7 @@
 	<groupId>dev.tobycook</groupId>
 	<artifactId>eventize</artifactId>
 	<version>0.0.1</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>11</java.version>
