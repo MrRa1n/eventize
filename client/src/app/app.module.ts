@@ -10,13 +10,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { VenuesComponent } from './eventize/pages/venues/venues.component';
+import { DataTableComponent } from './shared/components/data-table/data-table.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    VenuesComponent
+    VenuesComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,
