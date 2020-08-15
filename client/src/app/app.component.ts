@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
         title: 'Manage',
         href: '',
         links: [
-          { icon: '', title: 'Venues', href: '' },
+          { icon: '', title: 'Venues', href: '/venues' },
           { icon: '', title: 'Events', href: '' },
           { icon: '', title: 'Guests', href: '' }
         ]
