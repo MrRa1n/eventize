@@ -1,0 +1,61 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <div class="logo">{{ isCollapsed ? 'E' : 'Eventize'}}</div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+
+        <li *ngFor="let item of navLinks" nz-submenu [nzTitle]="item?.title" [nzIcon]="item?.icon">
+          <ul *ngIf="item?.links">
+            <li *ngFor="let childItem of item?.links" nz-menu-item>{{childItem.title}}</li>
+          </ul>
+          <ng-template #menuItem>
+            <li nz-menu-item>
+              <em nz-icon [nzType]="item?.icon"></em>
+              <span>{{ item?.title }}</span>
+            </li>
+          </ng-template>
+        </li>
+
+
+
+
+
+      
+
+      <li nz-submenu nzTitle="User" nzIcon="user">
+        <ul>
+          <li nz-menu-item>Tom</li>
+          <li nz-menu-item>Bill</li>
+          <li nz-menu-item>Alex</li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Team" nzIcon="team">
+        <ul>
+          <li nz-menu-item>Team 1</li>
+          <li nz-menu-item>Team 2</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></i>
+        <div style="float:right;">
+          <span style="margin-right:1rem;">Welcome, Toby</span>
+          <nz-badge [nzCount]="5" style="margin-right: 24px;">
+            <nz-avatar nzIcon="user"></nz-avatar>
+          </nz-badge>
+        </div>
+
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content">
+        Bill is a cat.
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
